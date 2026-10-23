@@ -1,0 +1,75 @@
+/* ================================================
+   THEME.CSS — Party · Tokens de diseño (oscuro / claro)
+   Los nombres --color-accent, --color-btn-primary-bg, etc.
+   se mantienen porque Configuración los personaliza.
+   ================================================ */
+
+:root {
+  /* Superficies */
+  --bg-primary:    #060a18;
+  --bg-secondary:  #0b1124;
+  --bg-card:       #0e1630;
+  --bg-elev:       #141d3d;
+  --bg-input:      #0a1026;
+
+  /* Texto */
+  --color-text:    #eef1fb;
+  --color-soft:    #b6c0dd;
+  --color-muted:   #7f8db3;
+
+  /* Marca */
+  --color-accent:          #6c8bff;
+  --color-accent-2:        #8b5cf6;
+  --color-btn-primary-bg:  #4f6bff;
+  --color-btn-primary-text:#ffffff;
+  --grad-primary: linear-gradient(135deg, var(--color-btn-primary-bg) 0%, var(--color-accent-2) 100%);
+
+  /* Semánticos */
+  --color-border:  #1b2650;
+  --border-soft:   rgba(120, 140, 220, .14);
+  --color-danger:  #f0546a;
+  --color-success: #2dd4a0;
+  --color-warning: #f5a524;
+  --color-info:    #38bdf8;
+  --color-pink:    #ec4899;
+
+  /* Forma */
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 9px;
+  --shadow-card: 0 12px 32px rgba(2, 5, 20, .38);
+
+  /* Layout */
+  --sidebar-w: 256px;
+  --topbar-h:  72px;
+
+  /* Tipografía */
+  --font-ui: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-size-base: 14px;
+}
+
+[data-theme="light"] {
+  --bg-primary:    #eef1f9;
+  --bg-secondary:  #e4e9f5;
+  --bg-card:       #ffffff;
+  --bg-elev:       #f4f6fc;
+  --bg-input:      #f4f6fc;
+
+  --color-text:    #151b33;
+  --color-soft:    #3d4766;
+  --color-muted:   #6b7699;
+
+  --color-accent:          #4f6bff;
+  --color-accent-2:        #7c3aed;
+  --color-btn-primary-bg:  #4f6bff;
+  --color-btn-primary-text:#ffffff;
+
+  --color-border:  #d5dcef;
+  --border-soft:   rgba(60, 80, 160, .14);
+  --color-danger:  #dc3550;
+  --color-success: #12a37a;
+  --color-warning: #d68a0c;
+  --color-info:    #0b8fd1;
+
+  --shadow-card: 0 10px 28px rgba(40, 60, 120, .12);
+}

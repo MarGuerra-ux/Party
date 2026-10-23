@@ -1,0 +1,62 @@
+/* ================================================
+   PANEL_SCRUM.CSS — Kanban, flechas, drag & drop
+   ================================================ */
+
+.task-card {
+  position: relative;
+  background: var(--bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  cursor: grab;
+  transition: box-shadow .15s, opacity .15s;
+}
+
+.task-card.dragging {
+  opacity: .5;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  cursor: grabbing;
+}
+
+.kanban-column.drag-over {
+  border: 2px dashed var(--color-accent);
+  background: rgba(56,189,248,.05);
+}
+
+.task-drag-handle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  color: var(--color-muted);
+  cursor: grab;
+  opacity: .5;
+}
+
+.task-body h4  { margin: 0 0 4px; font-size: 13px; padding-right: 20px; }
+.task-meta     { margin: 0; font-size: 11px; color: var(--color-muted); }
+
+.task-arrow-btns { display: flex; gap: 4px; margin: 8px 0 6px; }
+
+.arrow-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-accent);
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .12s;
+  line-height: 1;
+}
+
+.arrow-btn:hover   { background: var(--color-btn-primary-bg); color: #fff; }
+.arrow-placeholder { width: 28px; height: 28px; display: inline-block; }
+
+.task-actions       { display: flex; gap: 6px; }
+.task-actions .btn  { font-size: 12px; padding: 4px 10px; }

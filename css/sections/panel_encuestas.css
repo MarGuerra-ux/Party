@@ -1,0 +1,14 @@
+/* ================================================
+   PANEL_ENCUESTAS.CSS
+   ================================================ */
+
+.poll-option {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: 1px solid #1a2540;
+  transition: border-color .12s;
+}
+.poll-option:hover  { border-color: #1e3a5f; }
+.poll-option-voted  { border-color: var(--color-accent); background: #0d1e38; }

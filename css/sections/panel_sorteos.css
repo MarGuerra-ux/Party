@@ -1,0 +1,40 @@
+/* ================================================
+   PANEL_SORTEOS.CSS — chips y animación
+   ================================================ */
+
+.raffle-item {
+  background: #0a1022;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 1px solid #1a2540;
+}
+
+.raffle-name-chip {
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--color-border);
+  font-size: 13px;
+  color: var(--color-text);
+  transition: background .08s, transform .08s, color .08s;
+}
+
+.raffle-highlight {
+  background: var(--color-accent) !important;
+  color: #fff !important;
+  transform: scale(1.12);
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 12px rgba(56,189,248,.53);
+}
+
+.raffle-winner-chip {
+  background: #22c55e !important;
+  color: #fff !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 16px rgba(34,197,94,.53);
+  transform: scale(1.15);
+  font-weight: 700;
+}
+
+.raffle-loser { opacity: .35; filter: grayscale(80%); }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio · Party</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="../js/party_theme.js"></script>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/party.css" />
+</head>
+
+<body data-party-mode="main" data-party-active="inicio">
+  <div class="app">
+    <!-- Marca, buscador y menú: los dibuja js/party_ui.js -->
+    <a class="app-brand" id="partyBrand"></a>
+    <header class="app-top" id="partyTop"></header>
+    <aside class="app-side" id="partySide"></aside>
+
+    <main class="app-main">
+      <div class="page" id="dash"></div>
+    </main>
+  </div>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/data.js"></script>
+
+  <!-- Shell y datos de Party -->
+  <script src="../js/party_data.js"></script>
+  <script src="../js/party_ui.js"></script>
+  <script src="../js/party_schedule_parser.js"></script>
+  <script src="../js/party_schedule.js"></script>
+
+  <!-- Dashboard -->
+  <script src="../js/inicio.js"></script>
+</body>
+</html>

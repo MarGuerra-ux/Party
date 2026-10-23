@@ -1,0 +1,9 @@
+﻿*.zip
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+agent/data/*.db
+agent/data/*.json

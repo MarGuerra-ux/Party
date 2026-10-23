@@ -1,0 +1,13 @@
+verificado: "test"
+ajustes: { umbral_confirmacion_tokens: 0, max_pasos_herramientas: 6, timeout_segundos: 10, memoria_corta_turnos: 6, clasificador_llm: false }
+proveedores:
+  groq:    { nombre: Groq,    base_url: http://x, key_env: T_GROQ,    renueva: "se renueva cada minuto", ventanas: [ { nombre: "por minuto", segundos: 60, tokens: 6000 } ] }
+  gemini:  { nombre: Gemini,  base_url: http://x, key_env: T_GEMINI,  renueva: "se renueva cada día",    ventanas: [ { nombre: "por día", segundos: 86400, peticiones: 250 } ] }
+  mistral: { nombre: Mistral, base_url: http://x, key_env: T_MISTRAL, renueva: "se renueva cada mes",    ventanas: [ { nombre: "por mes", segundos: 2592000 } ] }
+embeddings: { proveedor: gemini, modelo: emb-test, dimensiones: 768, umbral: 0.15 }
+niveles:
+  1_rapido:       [ { proveedor: groq,    modelo: llama-3.1-8b-instant } ]
+  2_equilibrado:  [ { proveedor: groq,    modelo: limitado }, { proveedor: mistral, modelo: mistral-medium } ]
+  3_razonamiento: [ { proveedor: gemini,  modelo: gemini-2.5-flash } ]
+  vision:         [ { proveedor: gemini,  modelo: gemini-2.5-flash } ]
+  respaldo:       [ { proveedor: mistral, modelo: respaldo-x } ]

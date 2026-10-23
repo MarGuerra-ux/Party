@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro · Party</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="../js/party_theme.js"></script>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/party.css" />
+</head>
+<body>
+  <main class="auth-wrap">
+
+    <section class="auth-art" id="authArt">
+      <div class="brand"><span data-logo></span><strong>Party</strong></div>
+      <div>
+        <h2>Únete a tu sección y arma tu equipo.</h2>
+        <p>Crea tu cuenta de alumno, entra a tu grupo y empieza a organizar el semestre.</p>
+      </div>
+    </section>
+
+    <section class="auth-form">
+      <div class="auth-card">
+        <div class="brand-mini"><span data-logo></span>Party</div>
+        <h1>Registro de alumno</h1>
+        <p>Completa tus datos para crear tu perfil.</p>
+
+        <label for="fullNameInput">Nombre completo</label>
+        <input id="fullNameInput" placeholder="Ej: Marco Guerra" />
+
+        <label for="phoneInput">Teléfono</label>
+        <input id="phoneInput" placeholder="+56912345678" />
+
+        <label for="emailInput">Correo (opcional)</label>
+        <input id="emailInput" type="email" />
+
+        <label for="careerSelect">Carrera</label>
+        <select id="careerSelect"></select>
+
+        <label for="sectionSelect">Sección</label>
+        <select id="sectionSelect"></select>
+
+        <button class="btn primary full" onclick="registerStudent()">Registrarme</button>
+        <button class="btn secondary full" onclick="location.href='../index.html'">Volver</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="../js/party_ui.js"></script>
+  <script>
+    document.querySelectorAll("[data-logo]").forEach(function (el) { el.outerHTML = Party.logo(); });
+    document.getElementById("authArt").insertAdjacentHTML("afterbegin", Party.heroArt());
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/registro.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Party · Tu equipo. Tu estudio.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="js/party_theme.js"></script>
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/party.css" />
+</head>
+<body>
+  <main class="auth-wrap">
+
+    <section class="auth-art" id="authArt">
+      <div class="brand"><span data-logo></span><strong>Party</strong></div>
+      <div>
+        <h2>Tu equipo. Tu estudio. Todo en un solo lugar.</h2>
+        <p>Organiza tus asignaturas, apuntes y tareas, y estudia en grupo con un asistente que entiende tu semestre.</p>
+      </div>
+    </section>
+
+    <section class="auth-form">
+      <div class="auth-card">
+        <div class="brand-mini"><span data-logo></span>Party</div>
+        <h1>Te damos la bienvenida</h1>
+        <p>Ingreso libre en fase de construcción. Puedes dejar los campos vacíos.</p>
+
+        <label for="userInput">Teléfono / Usuario</label>
+        <input id="userInput" placeholder="Opcional" autocomplete="username" />
+
+        <label for="passwordInput">Contraseña</label>
+        <input id="passwordInput" type="password" placeholder="Opcional" autocomplete="current-password" />
+
+        <button id="loginBtn" class="btn primary full">Entrar</button>
+        <button class="btn secondary full" onclick="location.href='pages/registro.html'">Registrarse</button>
+
+        <p class="auth-hint">Si dejas el usuario vacío entras con la cuenta de desarrollo.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/party_ui.js"></script>
+  <script>
+    document.querySelectorAll("[data-logo]").forEach(function (el) { el.outerHTML = Party.logo(); });
+    document.getElementById("authArt").insertAdjacentHTML("afterbegin", Party.heroArt());
+  </script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabaseClient.js"></script>
+
+  <!-- Estado local temporal -->
+  <script src="js/data.js"></script>
+
+  <!-- Login -->
+  <script src="js/app.js"></script>
+</body>
+</html>

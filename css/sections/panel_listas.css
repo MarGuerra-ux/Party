@@ -1,0 +1,31 @@
+/* ================================================
+   PANEL_LISTAS.CSS
+   ================================================ */
+
+.list-card { margin-bottom: 16px; }
+.list-items-wrap { display: flex; flex-direction: column; gap: 6px; }
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  background: #0a1022;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.list-item input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; accent-color: var(--color-accent); }
+.list-item-text { flex: 1; color: #d4ddf0; }
+.list-item-done .list-item-text { text-decoration: line-through; color: #4a5a7a; }
+
+.list-color-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 4px;
+  border-radius: 6px;
+  opacity: .7;
+  transition: opacity .12s;
+}
+.list-color-btn:hover { opacity: 1; background: var(--bg-secondary); }

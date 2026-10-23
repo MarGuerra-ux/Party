@@ -1,0 +1,70 @@
+/* ================================================
+   PANEL_INICIO.CSS — Feed y actividad reciente
+   ================================================ */
+
+.inicio-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 18px;
+  align-items: start;
+}
+
+.inicio-col-derecha { display: flex; flex-direction: column; gap: 18px; }
+.inicio-card-tall   { min-height: 400px; }
+
+.card-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-section-header h2 { margin: 0; font-size: 16px; }
+
+.card-badge {
+  background: #0f1e38;
+  color: #7eb3e8;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #1e3a5f;
+}
+
+/* Actividad */
+.actividad-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #1a2540;
+}
+.actividad-item:last-child { border-bottom: none; }
+.actividad-icono   { font-size: 20px; min-width: 28px; text-align: center; margin-top: 2px; }
+.actividad-texto p { margin: 0 0 3px; font-size: 13px; color: #d4ddf0; line-height: 1.4; }
+.actividad-texto strong { color: #f6f7fb; }
+.actividad-fecha   { font-size: 11px; color: #4a5a7a; }
+
+/* Resumen Scrum */
+.resumen-stat-row   { display: flex; gap: 16px; margin-bottom: 16px; }
+.resumen-stat       { flex: 1; background: #0a1022; border-radius: 10px; padding: 12px; text-align: center; }
+.resumen-stat-num   { display: block; font-size: 28px; font-weight: 800; color: #38bdf8; line-height: 1; }
+.resumen-stat-label { font-size: 11px; color: #6b7a99; margin-top: 4px; display: block; }
+.resumen-barra-wrap { margin-bottom: 10px; }
+.resumen-barra-label { display: flex; justify-content: space-between; font-size: 12px; color: #8a9ab8; margin-bottom: 5px; }
+.resumen-barra-bg   { background: #0a1022; border-radius: 999px; height: 8px; overflow: hidden; }
+.resumen-barra-fill { height: 100%; background: #38bdf8; border-radius: 999px; transition: width 0.6s ease; min-width: 4px; }
+
+/* Próximos eventos */
+.evento-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1a2540; }
+.evento-item:last-child { border-bottom: none; }
+.evento-urgente .evento-fecha-badge { background: #3d1a1a; }
+.evento-urgente .evento-dia         { color: #ef4444; }
+.evento-fecha-badge { background: #0a1022; border-radius: 10px; padding: 8px 10px; text-align: center; min-width: 44px; flex-shrink: 0; }
+.evento-dia         { display: block; font-size: 20px; font-weight: 800; color: #38bdf8; line-height: 1; }
+.evento-mes         { display: block; font-size: 10px; color: #6b7a99; text-transform: uppercase; margin-top: 2px; }
+.evento-info        { flex: 1; }
+.evento-titulo      { margin: 0 0 3px; font-size: 13px; color: #d4ddf0; font-weight: 600; }
+.evento-dias-restantes { font-size: 11px; color: #4a5a7a; }
+.evento-alerta      { font-size: 16px; }
+
+@media (max-width: 720px) { .inicio-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,11 @@
+fastapi>=0.110
+uvicorn>=0.29
+httpx>=0.27
+pyyaml>=6.0
+python-dotenv>=1.0
+langgraph>=0.2
+langchain-core>=0.3
+crewai>=1.0       # equipo multi-agente (IL2.3): serial y jerárquico
+truststore   # usa los certificados de Windows (antivirus/red con HTTPS interceptado)
+tzdata        # zona horaria de Chile en Windows
+pytest>=8.0   # solo para las pruebas

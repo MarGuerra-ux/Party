@@ -1,0 +1,76 @@
+# ============================================================
+# Party · configuración de modelos (el "cerebro" del enrutador)
+# Se edita sin tocar código. Si un modelo desaparece o cambia de
+# nombre, se corrige aquí. Para ver los nombres válidos de TU cuenta:
+#   http://localhost:8787/modelos-disponibles
+# ============================================================
+verificado: "2026-10-22"   # última fecha en que se revisaron estos datos
+
+ajustes:
+  umbral_confirmacion_tokens: 0   # 0 = pedir permiso siempre; ej. 300 = no preguntar bajo 300 tokens
+  max_pasos_herramientas: 5       # vueltas máximas de herramientas por pregunta
+  timeout_segundos: 45
+  memoria_corta_turnos: 6         # turnos recientes que recuerda por sesión
+  clasificador_llm: false         # false = clasificar con reglas (0 tokens)
+
+# ------------------------------------------------------------
+# Proveedores. 'ventanas' describe cómo se renuevan los límites.
+#   tokens / peticiones: límite configurado (opcional; si falta, solo se muestra el uso)
+#   renueva: texto que ve el usuario. Fuente: documentación del proveedor.
+# ------------------------------------------------------------
+proveedores:
+  groq:
+    nombre: Groq
+    base_url: https://api.groq.com/openai/v1
+    key_env: GROQ_API_KEY
+    cabeceras_limite: true          # Groq informa los límites reales en cada respuesta
+    renueva: "se renueva cada minuto y cada día"
+    ventanas:
+      - { nombre: "por minuto", segundos: 60, tokens: 6000 }
+      - { nombre: "por día", segundos: 86400, peticiones: 1000 }
+  gemini:
+    nombre: Google Gemini
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai
+    key_env: GEMINI_API_KEY
+    renueva: "se renueva cada día (a medianoche, hora del Pacífico)"
+    ventanas:
+      - { nombre: "por día", segundos: 86400, peticiones: 250 }
+  mistral:
+    nombre: Mistral
+    base_url: https://api.mistral.ai/v1
+    key_env: MISTRAL_API_KEY
+    renueva: "se renueva cada mes"
+    ventanas:
+      - { nombre: "por minuto", segundos: 60, tokens: 50000 }
+      - { nombre: "por mes", segundos: 2592000 }
+  openrouter:
+    nombre: OpenRouter
+    base_url: https://openrouter.ai/api/v1
+    key_env: OPENROUTER_API_KEY
+    renueva: "se renueva cada día (límite bajo en modelos gratis)"
+    ventanas:
+      - { nombre: "por minuto", segundos: 60, peticiones: 20 }
+      - { nombre: "por día", segundos: 86400, peticiones: 50 }
+
+# ------------------------------------------------------------
+# Niveles: el primero de cada lista es el preferido; los siguientes son respaldo.
+# ------------------------------------------------------------
+niveles:
+  1_rapido:          # tareas simples: extraer, reformular, responder corto
+    - { proveedor: groq,       modelo: openai/gpt-oss-20b }
+    - { proveedor: mistral,    modelo: mistral-small-latest }
+    - { proveedor: gemini,     modelo: gemini-2.5-flash-lite }
+  2_equilibrado:     # respuestas con contexto, redacción, uso de herramientas
+    - { proveedor: groq,       modelo: openai/gpt-oss-120b }
+    - { proveedor: mistral,    modelo: mistral-medium-latest }
+  3_razonamiento:    # planificar varias etapas, resolver conflictos, decidir
+    - { proveedor: gemini,     modelo: gemini-2.5-flash }
+    - { proveedor: mistral,    modelo: magistral-medium-latest }
+    - { proveedor: groq,       modelo: openai/gpt-oss-120b }
+  vision:            # fotos (horario, apuntes escaneados)
+    - { proveedor: gemini,     modelo: gemini-2.5-flash }
+    - { proveedor: openrouter, modelo: "google/gemma-4-31b-it:free" }
+    - { proveedor: openrouter, modelo: "nvidia/nemotron-3.5-super-vl:free" }
+  respaldo:          # última red de seguridad (cualquier nivel)
+    - { proveedor: openrouter, modelo: "nvidia/nemotron-3-super-120b-a12b:free" }
+    - { proveedor: openrouter, modelo: "google/gemma-4-31b-it:free" }

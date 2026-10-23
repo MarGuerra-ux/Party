@@ -1,0 +1,12 @@
+/* Agente de IA: alerta de uso de tokens, medidor y propuestas */
+.agent-meter { font-size: 11.5px; color: var(--color-muted); padding: 6px 10px; margin: 0 0 8px; border: 1px dashed var(--color-border, rgba(255,255,255,.14)); border-radius: 10px; line-height: 1.5; }
+.agent-meter code { font-size: 11px; }
+.agent-confirm { border-left: 3px solid var(--color-accent, #8b5cf6); padding-left: 10px; }
+.agent-confirm small { color: var(--color-muted); display: block; margin-top: 4px; line-height: 1.5; }
+.agent-actions { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--color-border, rgba(255,255,255,.14)); }
+.agent-act { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; font-size: 13px; }
+.msg.bot details { margin-top: 6px; font-size: 12.5px; color: var(--color-muted); }
+.msg.bot details summary { cursor: pointer; }
+
+.agent-mode { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 11.5px; color: var(--color-muted); margin: 0 0 8px; }
+.agent-mode select { font: inherit; font-size: 12px; padding: 4px 8px; border-radius: 8px; background: var(--color-surface, #131c33); color: var(--color-text, #e8edf8); border: 1px solid var(--color-border, rgba(255,255,255,.14)); }
