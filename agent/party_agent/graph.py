@@ -126,7 +126,9 @@ class Agente:
                    f"Hoy es {fecha_larga(hoy(ctx))}. Reglas: 1) Para datos del estudiante (horario, calendario, apuntes) usa SIEMPRE las herramientas; "
                    "no inventes fechas ni datos. 2) Para agregar algo al calendario usa proponer_evento (el usuario lo confirma). "
                    "3) Si detectas un conflicto de fechas, avísalo, ajusta tu propuesta y explica el cambio. "
-                   "4) Si el usuario cuenta un hábito o preferencia duradera, usa guardar_memoria. 5) No pidas datos que puedas consultar con una herramienta.")
+                   "4) Si el usuario cuenta un hábito o preferencia duradera, usa guardar_memoria. 5) No pidas datos que puedas consultar con una herramienta. "
+                   "6) Para preguntas sobre el material de la Biblioteca usa buscar_material UNA sola vez y responde con esos fragmentos, citando archivo y página "
+                   "(si la herramienta la da); usa leer_material solo si piden resumir o leer un archivo completo. Si no hay coincidencias, dilo claramente.")
         if s.get("resumen"):
             sistema += " Resumen de la conversación anterior: " + s["resumen"]
         if s.get("recuerdos"):
@@ -140,9 +142,13 @@ class Agente:
                   "errores": list(s.get("errores", []))}
         traza = list(s["traza"])
         final, errores, usos = "", 0, 0
-        for _ in range(self.cfg.ajustes["max_pasos_herramientas"]):
+        pasos = self.cfg.ajustes["max_pasos_herramientas"]
+        for paso in range(pasos):
+            ultimo = paso == pasos - 1 and pasos > 1                  # última vuelta: sin herramientas, el modelo debe cerrar la respuesta
+            if ultimo:
+                msgs.append({"role": "system", "content": "Ya tienes los datos disponibles. Responde ahora al usuario con lo que encontraste (o di que no hay coincidencias)."})
             try:
-                r, cand, estado2 = await self._llamar({**s, **estado}, msgs, None if s.get("vision") else tools.ESQUEMAS, LIMITES_SALIDA[s["nivel"]], "responder", estado)
+                r, cand, estado2 = await self._llamar({**s, **estado}, msgs, None if (s.get("vision") or ultimo) else tools.ESQUEMAS, LIMITES_SALIDA[s["nivel"]], "responder", estado)
             except ProviderError as e:
                 traza.append(f"Ningún modelo pudo responder: {e}")
                 final = ""

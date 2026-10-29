@@ -182,7 +182,8 @@ window.DocReader = (() => {
       const out = [];
       for (let p = 1; p <= Math.min(pdf.numPages, maxPages); p++) {
         const tc = await (await pdf.getPage(p)).getTextContent();
-        out.push(tc.items.map((i) => i.str).join(" ").replace(/\s+/g, " ").trim());
+        const t = tc.items.map((i) => i.str).join(" ").replace(/\s+/g, " ").trim();
+        out.push(t ? `[p.${p}] ${t}` : "");      // la marca [p.N] permite al agente decir en qué página está algo
       }
       return { text: out.filter(Boolean).join("\n\n"), pages: pdf.numPages };
     }

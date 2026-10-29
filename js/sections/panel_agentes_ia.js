@@ -11,7 +11,7 @@ const AgentesIA = (() => {
   const aurl = () => (window.PartyAgent ? PartyAgent.base() : "http://localhost:8787");
   const esc = (t) => Party.esc(String(t ?? ""));
   const fmt = (n) => Number(n || 0).toLocaleString("es-CL");
-  let timer = null, since = 0, hist = [], hi = -1, st = { launcher: false, agente: false, proceso: false }, lastAgentFetch = 0, busy = false;
+  let timer = null, since = 0, hist = [], hi = -1, st = { launcher: false, agente: false, proceso: false }, lastAgentFetch = 0, busy = false, lastErr = "";
 
   async function j(url, opt, ms = 2500) {
     const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms);
@@ -64,7 +64,14 @@ const AgentesIA = (() => {
     if (!document.body.contains(document.getElementById("agentesIaWrap"))) { clearInterval(timer); timer = null; return; }
     if (busy && !force) return; busy = true;
     try {
-      let s = null; try { s = await j(lurl() + "/status", null, 1500); } catch { s = null; }
+      let s = null, err = "";
+      try { s = await j(lurl() + "/status", null, 4000); } catch (e) { s = null; err = e.name === "AbortError" ? "no respondió a tiempo" : e.message; }
+      if (!s) {                                           // prueba la otra forma de llamar al mismo equipo (localhost ↔ 127.0.0.1)
+        const alt = lurl().includes("localhost") ? lurl().replace("localhost", "127.0.0.1") : lurl().replace("127.0.0.1", "localhost");
+        try { s = await j(alt + "/status", null, 4000); if (s) { try { localStorage.setItem(LKEY, alt); } catch {} note("Lanzador encontrado en " + alt, "party"); } } catch { /* sigue desconectado */ }
+      }
+      if (!s && err && err !== lastErr) { lastErr = err; note("No logro hablar con el lanzador (" + lurl() + "): " + err + ". Si la ventana del lanzador está abierta, abre " + lurl() + "/status en otra pestaña para ver si responde.", "party"); }
+      if (s) lastErr = "";
       st.launcher = !!s; st.proceso = !!s?.proceso; st.agente = !!s?.agente_responde;
       if (!s) { // sin lanzador: igual detecta si el agente corre por su cuenta (iniciar.bat)
         try { await j(aurl() + "/health", null, 1200); st.agente = true; } catch { st.agente = false; }

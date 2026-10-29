@@ -74,3 +74,18 @@ def test_leer_material_por_tramos_y_falla_con_gracia(tmp_path):
 def test_herramienta_desconocida_no_lanza(tmp_path):
     assert "error" in run("no_existe", {}, tmp_path)[0]
     assert "error" in run("consultar_horario", {"dia": "lunes"}, tmp_path, {"hoy": "2026-10-22", "horario": 5})[0]   # datos corruptos: error, no excepción
+
+
+def test_buscar_material_cita_la_pagina_si_el_texto_tiene_marcas():
+    tools.configurar(None)
+    texto = "[p.1] Introduccion a las colas de mensajes. [p.2] Una Dead Letter Queue guarda los mensajes rechazados o expirados de otra cola. [p.3] Alertas y retencion."
+    ctx = {"material": [{"id": "a1", "nombre": "2.2.3 DLX DLQ.pdf", "asignatura": "Cloud", "ruta": "Cloud", "texto": texto}]}
+    r = tools.ejecutar("buscar_material", {"consulta": "dead letter queue mensajes rechazados"}, ctx, {"acciones": [], "memoria_guardada": []}, None, "u1")
+    assert r["coincidencias"] >= 1
+    assert r["resultados"][0]["archivo"] == "2.2.3 DLX DLQ.pdf"
+    assert "[p." not in r["resultados"][0]["fragmento"]
+
+
+def test_pagina_sin_marcas_no_inventa():
+    assert tools._pagina("texto sin marcas de pagina", "texto sin marcas") is None
+    assert tools._pagina("[p.4] hola mundo cruel", "hola mundo") == 4

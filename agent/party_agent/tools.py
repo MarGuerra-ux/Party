@@ -82,6 +82,20 @@ def _semantica(fuente: str, docs: list[dict], consulta: str, ids: set | None = N
 
 
 
+MARCA_PAG = re.compile(r"\[p\.(\d+)\]\s*")
+
+
+def _pagina(texto: str, fragmento: str):
+    """Página donde empieza un fragmento, según las marcas [p.N] que el lector deja al subir el PDF. None si el archivo no las tiene."""
+    plano = re.sub(r"\s+", " ", texto or "")
+    clave = re.sub(r"\s+", " ", MARCA_PAG.sub("", fragmento or "")).strip()[:50]
+    i = plano.find(clave) if clave else -1
+    if i < 0:
+        return None
+    previas = [m for m in MARCA_PAG.finditer(plano) if m.start() <= i]
+    return int(previas[-1].group(1)) if previas else None
+
+
 def _trozos(texto: str, largo: int = 700) -> list[str]:
     """Parte un texto en fragmentos de ~largo caracteres cortando en espacios."""
     out, i = [], 0
@@ -149,9 +163,18 @@ def ejecutar(nombre: str, args: dict, ctx: dict, estado: dict, memoria: Memoria,
             sem = _semantica("material", [{"id": d.get("id"), "texto": d.get("texto", "")} for d in elegidos], args.get("consulta", ""), {str(d.get("id")) for d in elegidos})
             if sem and sem["resultados"]:
                 por_id = {str(d.get("id")): d for d in elegidos}
-                return {"metodo": sem["metodo"], **({"aviso": sem["aviso"]} if sem.get("aviso") else {}),
-                        "resultados": [{"archivo": por_id[r["id"]].get("nombre"), "id": r["id"], "asignatura": por_id[r["id"]].get("asignatura"), "tramo": r["tramo"],
-                                        "fragmento": r["fragmento"], "similitud": r["similitud"]} for r in sem["resultados"] if r["id"] in por_id]}
+                filas = []
+                for r in sem["resultados"]:
+                    d = por_id.get(r["id"])
+                    if not d:
+                        continue
+                    f = {"archivo": d.get("nombre"), "id": r["id"], "asignatura": d.get("asignatura"), "tramo": r["tramo"],
+                         "fragmento": MARCA_PAG.sub("", r["fragmento"])[:380], "similitud": r["similitud"]}
+                    pg = _pagina(d.get("texto", ""), r["fragmento"])
+                    if pg:
+                        f["pagina"] = pg
+                    filas.append(f)
+                return {"metodo": sem["metodo"], **({"aviso": sem["aviso"]} if sem.get("aviso") else {}), "coincidencias": len(filas), "resultados": filas}
             res = []
             for d in docs:
                 if filtro and filtro not in sin_acentos(f"{d.get('asignatura','')} {d.get('ruta','')}"):
@@ -160,9 +183,13 @@ def ejecutar(nombre: str, args: dict, ctx: dict, estado: dict, memoria: Memoria,
                     tt = sin_acentos(t)
                     p = sum(min(tt.count(w), 3) for w in q) + (2 if all(w in tt for w in q) else 0)
                     if p:
-                        res.append((p, {"archivo": d.get("nombre"), "id": d.get("id"), "asignatura": d.get("asignatura"), "tramo": n, "fragmento": t[:420]}))
+                        f = {"archivo": d.get("nombre"), "id": d.get("id"), "asignatura": d.get("asignatura"), "tramo": n, "fragmento": MARCA_PAG.sub("", t)[:380]}
+                        pg = _pagina(d.get("texto", ""), t)
+                        if pg:
+                            f["pagina"] = pg
+                        res.append((p, f))
             res.sort(key=lambda x: -x[0])
-            return {"resultados": [r for _, r in res[:4]]} if res else {"resultados": [], "aviso": "Sin coincidencias en el material."}
+            return {"coincidencias": len(res[:4]), "resultados": [r for _, r in res[:4]]} if res else {"coincidencias": 0, "resultados": [], "aviso": "Sin coincidencias en el material."}
 
         if nombre == "leer_material":
             d = next((x for x in (ctx.get("material") or []) if x.get("id") == args.get("archivo")), None)

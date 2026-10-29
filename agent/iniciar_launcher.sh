@@ -5,4 +5,4 @@ cd "$(dirname "$0")"
 source .venv/bin/activate
 pip install -q -r requirements.txt
 [ -f .env ] || { cp .env.example .env; echo "Se creó .env: pega tus claves y vuelve a ejecutar."; exit 1; }
-python launcher.py "$@"
+python launcher.py --auto "$@"

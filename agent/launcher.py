@@ -75,9 +75,12 @@ def corriendo() -> bool:
     return PROC is not None and PROC.poll() is None
 
 
+_SIN_PROXY = urllib.request.build_opener(urllib.request.ProxyHandler({}))      # el agente es local: nunca pasar por el proxy de Windows/antivirus
+
+
 def salud() -> dict | None:
     try:
-        with urllib.request.urlopen(f"http://127.0.0.1:{PUERTO_AGENTE}/health", timeout=1.5) as r:
+        with _SIN_PROXY.open(f"http://127.0.0.1:{PUERTO_AGENTE}/health", timeout=1.0) as r:
             return json.loads(r.read())
     except Exception:
         return None

@@ -24,9 +24,11 @@
 
   A.classify = (text) => {
     const t = text.trim();
+    // Preguntas sobre el material de la Biblioteca (o frases largas) las resuelve el agente con búsqueda semántica, no la búsqueda simple por palabra.
+    const paraAgente = /\b(material|archivos?|pdf|biblioteca|gu[ií]as?|documentos?|ppt|presentaci[oó]n(es)?)\b/i.test(t) || t.split(/\s+/).length > 7;
     for (const it of INTENTS) {
       const m = t.match(it.re);
-      if (m) return { id: it.id, match: m };
+      if (m && !(it.id === "SEARCH" && paraAgente)) return { id: it.id, match: m };
     }
     return null;
   };

@@ -7,4 +7,5 @@ echo Instalando dependencias (la primera vez tarda; las siguientes son rapidas).
 pip install -q -r requirements.txt
 if not exist .env ( copy .env.example .env && echo Se creo .env: pega tus claves, guarda y vuelve a abrir este archivo. && notepad .env && exit /b )
 echo.
-python launcher.py %*
+echo Lanzador activo. NO cierres esta ventana ni hagas clic dentro de ella (si dice Seleccionar en el titulo, pulsa Esc).
+python launcher.py --auto %*
